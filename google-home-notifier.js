@@ -1,6 +1,6 @@
 var Client = require('castv2-client').Client;
 var DefaultMediaReceiver = require('castv2-client').DefaultMediaReceiver;
-var mdns = require('mdns');
+var mdns = require('mdns-js');
 var browser = mdns.createBrowser(mdns.tcp('googlecast'));
 var deviceAddress;
 var language;
@@ -25,6 +25,7 @@ var accent = function(accent) {
 }
 
 var notify = function(message, callback) {
+  console.log(deviceAddress);
   if (!deviceAddress){
     browser.start();
     browser.on('serviceUp', function(service) {
@@ -92,7 +93,7 @@ var onDeviceUp = function(host, url, callback) {
       };
       player.load(media, { autoplay: true }, function(err, status) {
         client.close();
-        callback('Device notified');
+        callback('Device notified' + host + 'Hi' + url);
       });
     });
   });

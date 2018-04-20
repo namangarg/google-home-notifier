@@ -6,7 +6,7 @@ var app = express();
 const serverPort = 8091; // default port
 
 var deviceName = 'Google Home';
-var ip = '192.168.1.20'; // default IP
+var ip = '172.20.10.10'; // default IP
 
 var urlencodedParser = bodyParser.urlencoded({ extended: false });
 
@@ -21,7 +21,7 @@ app.post('/google-home-notifier', urlencodedParser, function (req, res) {
      ip = req.query.ip;
   }
 
-  var language = 'pl'; // default language code
+  var language = 'en'; // default language code
   if (req.query.language) {
     language;
   }
@@ -63,7 +63,7 @@ app.get('/google-home-notifier', function (req, res) {
      ip = req.query.ip;
   }
 
-  var language = 'pl'; // default language code
+  var language = 'en'; // default language code
   if (req.query.language) {
     language;
   }
@@ -82,7 +82,8 @@ app.get('/google-home-notifier', function (req, res) {
       } else {
         googlehome.notify(text, function(notifyRes) {
           console.log(notifyRes);
-          res.send(deviceName + ' will say: ' + text + '\n');
+		  console.log(googlehome);
+          res.send(deviceName + ' will say: ' + text + '\n'+googlehome);
         });
       }
     } catch(err) {
@@ -93,4 +94,17 @@ app.get('/google-home-notifier', function (req, res) {
   }else{
     res.send('Please GET "text=Hello+Google+Home"');
   }
+})
+
+app.listen(serverPort, function () {
+  ngrok.connect(serverPort, function (err, url) {
+    console.log('Endpoints:');
+    console.log('    http://' + ip + ':' + serverPort + '/google-home-notifier');
+    console.log('    ' + url + '/google-home-notifier');
+    console.log('GET example:');
+    console.log('curl -X GET ' + url + '/google-home-notifier?text=Hello+Google+Home');
+	console.log('POST example:');
+	console.log('curl -X POST -d "text=Hello Google Home" ' + url + '/google-home-notifier');
+  });
+  
 })
