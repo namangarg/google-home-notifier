@@ -93,7 +93,7 @@ var onDeviceUp = function(host, url, callback) {
       };
       player.load(media, { autoplay: true }, function(err, status) {
         client.close();
-        callback('Device notified' + host + 'Hi' + url);
+        callback('Device notified');
       });
     });
   });

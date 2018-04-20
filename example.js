@@ -96,6 +96,7 @@ app.get('/google-home-notifier', function (req, res) {
   }
 })
 
-app.listen(process.env.PORT || 8000, function() {
-  console.log("Server up and listening");
+var server = app.listen(process.env.PORT || 5000, function () {
+  var port = server.address().port;
+  console.log("Express is working on port " + port);
 });
